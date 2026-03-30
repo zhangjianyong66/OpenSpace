@@ -184,9 +184,36 @@ class SkillRanker:
 
     @staticmethod
     def _tokenize(text: str) -> List[str]:
-        """Tokenize text for BM25."""
-        tokens = re.split(r"[^\w]+", text.lower())
-        return [t for t in tokens if t]
+        """Tokenize text for BM25 with Chinese support."""
+        try:
+            import jieba
+            jieba_available = True
+        except ImportError:
+            jieba_available = False
+        
+        if not jieba_available:
+            # Fallback: simple split with Chinese character support
+            tokens = re.split(r"[^\w\u4e00-\u9fff]+", text.lower())
+            return [t for t in tokens if t]
+        
+        # Use jieba for Chinese tokenization
+        tokens = []
+        # Split by non-word, non-Chinese characters first
+        parts = re.split(r"[^\w\u4e00-\u9fff]+", text)
+        
+        for part in parts:
+            if not part:
+                continue
+            # Check if part contains Chinese characters
+            if re.search(r"[\u4e00-\u9fff]", part):
+                # Use jieba for Chinese text
+                tokens.extend(jieba.lcut(part))
+            else:
+                # English/numbers - keep as is (lowercase)
+                tokens.append(part.lower())
+        
+        # Filter out empty tokens and single punctuation
+        return [t.strip() for t in tokens if t.strip() and not re.match(r"^[^\w\u4e00-\u9fff]+$", t)]
 
     def _bm25_rank(
         self,

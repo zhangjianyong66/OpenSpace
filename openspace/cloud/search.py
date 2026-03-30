@@ -31,10 +31,34 @@ def _is_safe(flags: list[str]) -> bool:
     return is_skill_safe(flags)
 
 _WORD_RE = re.compile(r"[a-z0-9]+")
+_CHINESE_RE = re.compile(r"[\u4e00-\u9fff]")
 
 
 def _tokenize(value: str) -> list[str]:
-    return _WORD_RE.findall(value.lower()) if value else []
+    """Tokenize with Chinese support."""
+    if not value:
+        return []
+    
+    # Try to use jieba for better Chinese tokenization
+    try:
+        import jieba
+        tokens = []
+        # Split by non-word, non-Chinese characters
+        parts = re.split(r"[^\w\u4e00-\u9fff]+", value)
+        for part in parts:
+            if not part:
+                continue
+            # Check if part contains Chinese characters
+            if _CHINESE_RE.search(part):
+                # Use jieba for Chinese text
+                tokens.extend(jieba.lcut(part))
+            else:
+                # English/numbers - extract words
+                tokens.extend(_WORD_RE.findall(part.lower()))
+        return [t.strip() for t in tokens if t.strip()]
+    except ImportError:
+        # Fallback: simple regex with Chinese support
+        return re.findall(r"[a-z0-9]+|[\u4e00-\u9fff]", value.lower())
 
 
 def _lexical_boost(query_tokens: list[str], name: str, slug: str) -> float:
