@@ -387,6 +387,9 @@ These are recent task executions where this skill was involved:
 4. Keep ``name`` and ``description`` in frontmatter; update ``description``
    only if the skill's purpose has changed.
 5. Be surgical — fix what's broken without unnecessary rewrites.
+6. **Language**: Write all content in **Chinese (中文)**. The ``name`` field
+   must use English (lowercase, hyphens) for directory compatibility, but
+   ``description`` and all instruction body text must be in Chinese.
 
 ## Output format
 
@@ -428,19 +431,18 @@ Other operations:
 
 Example — fixing an incorrect curl parameter and adding a missing step:
 
-CHANGE_SUMMARY: Fixed curl content-type header and added retry logic
+CHANGE_SUMMARY: 修复了 curl 的 content-type 头，并添加了重试逻辑
 
 *** Begin Patch
 *** Update File: SKILL.md
-@@ 3. Send the API request:
- 3. Send the API request:
+@@ 3. 发送 API 请求：
+ 3. 发送 API 请求：
 -   curl -X POST -H "Content-Type: text/plain" ...
 +   curl -X POST -H "Content-Type: application/json" ...
-@@ ## Error handling
- ## Error handling
+@@ ## 错误处理
+ ## 错误处理
 +
-+4. **Retry on transient failures**: If you receive a 429 or 5xx status,
-+   wait 2 seconds and retry up to 3 times.
++4. **重试机制**：如果收到 429 或 5xx 状态码，等待 2 秒后重试，最多重试 3 次。
 *** End Patch
 
 ### Format B: Full rewrite (only when most of the content changes)
@@ -527,6 +529,9 @@ These are recent task executions that informed this enhancement:
 6. The derived skill should be self-contained — a user should be able to
    follow it without referencing the parent.
 7. You may add, modify, or remove auxiliary files as needed.
+8. **Language**: Write all content in **Chinese (中文)**. The ``name`` field
+   must use English (lowercase, hyphens) for directory compatibility, but
+   ``description`` and all instruction body text must be in Chinese.
 
 ## Output format
 
@@ -569,7 +574,7 @@ below.
 
 Example — renaming and enhancing a skill:
 
-CHANGE_SUMMARY: Added retry logic and broadened scope to cover batch requests
+CHANGE_SUMMARY: 添加了重试逻辑并扩展了批量请求支持
 
 *** Begin Patch
 *** Update File: SKILL.md
@@ -577,18 +582,18 @@ CHANGE_SUMMARY: Added retry logic and broadened scope to cover batch requests
 -name: api-request-guide
 -description: How to make single API requests
 +name: api-request-guide-enhanced
-+description: Robust API requests with retry logic and batch support
-@@ ## Steps
- ## Steps
++description: 支持重试逻辑和批量请求的健壮 API 请求指南
+@@ ## 步骤
+ ## 步骤
 +
-+0. **Pre-check**: Verify the API endpoint is reachable with a HEAD request.
-@@ 3. Send the request
- 3. Send the request
-+4. **Handle failures**: On 429/5xx, back off exponentially (1s, 2s, 4s)
-+   up to 3 retries before reporting an error.
++0. **预检查**：使用 HEAD 请求验证 API 端点是否可达。
+@@ 3. 发送请求
+ 3. 发送请求
++4. **失败处理**：遇到 429/5xx 时，指数退避重试（1s, 2s, 4s），
++   最多重试 3 次后报告错误。
 *** Add File: examples/batch_request.sh
 +#!/bin/bash
-+# Batch API request example
++# 批量 API 请求示例
 +for endpoint in "$@"; do
 +  curl -s "$endpoint" || echo "FAILED: $endpoint"
 +done
@@ -672,6 +677,9 @@ These are task executions where the pattern was observed:
    ``description``).
 7. If the pattern benefits from auxiliary files (shell scripts, config
    templates, etc.), include them.
+8. **Language**: Write all content in **Chinese (中文)**. The ``name`` field
+   must use English (lowercase, hyphens) for directory compatibility, but
+   ``description`` and all instruction body text must be in Chinese.
 
 ## Output format
 
@@ -691,12 +699,12 @@ Since this is a brand-new skill, always output the **full content**.
 *** File: SKILL.md
 ---
 name: my-skill-name
-description: What this skill does
+description: 这个技能的作用描述
 ---
 
-# My Skill
+# 我的技能
 
-Instructions here...
+操作说明...
 *** File: examples/setup.sh
 #!/bin/bash
 echo "setup script"
@@ -707,12 +715,12 @@ SKILL.md content directly (no ``*** Begin/End Files`` envelope needed):
 
 ---
 name: my-skill-name
-description: What this skill does
+description: 这个技能的作用描述
 ---
 
-# My Skill
+# 我的技能
 
-Step-by-step instructions...
+操作步骤说明...
 
 ### Rules
 

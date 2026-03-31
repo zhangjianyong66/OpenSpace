@@ -1,0 +1,66 @@
+{
+  "scan_time": "2026-03-31T09:15:00+08:00",
+  "memory_directory": "/Users/zhangjianyong/.openclaw/workspace/memory",
+  "summary": {
+    "total_files": 352,
+    "markdown_files": 269,
+    "index_entries": 25,
+    "archive_files": 42,
+    "etf_analysis_files": 13,
+    "knowledge_base_files": 1
+  },
+  "index_analysis": {
+    "total_dates": 25,
+    "date_range": "2026-03-06 to 2026-03-30",
+    "archived_dates": 22,
+    "active_dates": 4,
+    "important_entries": 20
+  },
+  "file_distribution": {
+    "main_directory": 213,
+    "archive_directory": 42,
+    "etf_analysis_directory": 13,
+    "knowledge_base_directory": 1
+  },
+  "correlation_status": {
+    "indexed_dates_with_files": 25,
+    "orphaned_files": 244,
+    "missing_files": 0
+  },
+  "anomalies": [
+    {
+      "type": "naming_mismatch",
+      "description": "索引使用简单日期格式(YYYY-MM-DD)，但实际文件使用描述性命名(YYYY-MM-DD-description.md)",
+      "severity": "low"
+    },
+    {
+      "type": "file_organization",
+      "description": "大量文件(244个)未在索引中直接引用，分布在archive、etf_analysis等子目录",
+      "severity": "medium"
+    },
+    {
+      "type": "index_structure",
+      "description": "索引文件缺少file、description、timestamp等字段，仅有topics、important、archived",
+      "severity": "medium"
+    }
+  ],
+  "recent_activity": {
+    "last_7_days": [
+      "2026-03-30",
+      "2026-03-29",
+      "2026-03-28",
+      "2026-03-27",
+      "2026-03-26",
+      "2026-03-25",
+      "2026-03-24"
+    ],
+    "new_entries": 4,
+    "updated_entries": 7
+  },
+  "recommendations": [
+    "建议统一文件命名规范，使索引与实际文件名对应",
+    "考虑将子目录文件纳入索引管理",
+    "为索引条目添加file、description、timestamp字段",
+    "定期归档旧文件以优化性能"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "llm": {
+    "default_model": "openai/kimi-k2.5",
+    "default_api_key": "sk-sp-2e191f06500d47acb7626c6f0c8325f8",
+    "default_api_base": "https://coding.dashscope.aliyuncs.com/v1"
+  },
+  "agents": [
+    {
+      "name": "GroundingAgent",
+      "class_name": "GroundingAgent",
+      "backend_scope": ["shell", "mcp", "system"],
+      "max_iterations": 30,
+      "visual_analysis_timeout": 60.0
+    }
+  ]
+}
