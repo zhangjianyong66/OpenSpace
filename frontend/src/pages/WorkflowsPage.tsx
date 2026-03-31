@@ -56,34 +56,34 @@ export default function WorkflowsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-serif">Recorded sessions</h1>
+          <h1 className="text-3xl font-bold font-serif">已记录会话</h1>
         </div>
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search by task name or instruction"
+          placeholder="按任务名称或指令搜索"
           className="px-3 py-2 min-w-[320px]"
         />
       </div>
 
       <section className="grid grid-cols-2 gap-4">
         <div className="p-4 space-y-2">
-          <div className="text-xs uppercase tracking-[0.16em] text-muted">Workflow Sessions</div>
+          <div className="text-xs uppercase tracking-[0.16em] text-muted">工作流会话</div>
           <div className="text-3xl font-bold font-serif leading-none">{workflows.length}</div>
-          <div className="text-xs text-muted">Scanned from logs/recordings and logs/trajectories</div>
+          <div className="text-xs text-muted">扫描自 logs/recordings 和 logs/trajectories</div>
         </div>
         <div className="p-4 space-y-2">
-          <div className="text-xs uppercase tracking-[0.16em] text-muted">Average Success</div>
+          <div className="text-xs uppercase tracking-[0.16em] text-muted">平均成功率</div>
           <div className="text-3xl font-bold font-serif leading-none">{averageSuccess}%</div>
-          <div className="text-xs text-muted">Mean success rate across sessions</div>
+          <div className="text-xs text-muted">所有会话的平均成功率</div>
         </div>
       </section>
 
-      {loading ? <div className="text-sm text-muted">Loading workflows…</div> : null}
+      {loading ? <div className="text-sm text-muted">正在加载工作流…</div> : null}
       {error ? <div className="text-sm text-danger">{error}</div> : null}
 
       {!loading && !error && filtered.length === 0 ? (
-        <EmptyState title="No workflow sessions" description="Run `openspace` with recording enabled, then refresh this page." />
+        <EmptyState title="暂无工作流会话" description="请启用录制运行 openspace，然后刷新此页面。" />
       ) : null}
 
       {!loading && !error && filtered.length > 0 ? (
@@ -96,13 +96,13 @@ export default function WorkflowsPage() {
                 </div>
                 <div className="text-right shrink-0">
                   <div className="text-lg font-bold font-serif">{(workflow.success_rate * 100).toFixed(1)}%</div>
-                  <div className="text-xs text-muted">success</div>
+                  <div className="text-xs text-muted">成功率</div>
                 </div>
               </div>
               <div className="text-sm text-muted line-clamp-2">{formatInstruction(workflow.instruction, 220)}</div>
               <div className="grid grid-cols-3 gap-3 text-xs text-muted">
-                <div>{workflow.total_steps} steps</div>
-                <div>{workflow.agent_action_count} agent actions</div>
+                <div>{workflow.total_steps} 步</div>
+                <div>{workflow.agent_action_count} 智能体动作</div>
                 <div>{formatDate(workflow.start_time)}</div>
               </div>
               {workflow.selected_skills.length > 0 ? (
@@ -114,7 +114,7 @@ export default function WorkflowsPage() {
                   ))}
                   {workflow.selected_skills.length > 3 ? (
                     <span className="tag px-2 py-1 text-muted">
-                      +{workflow.selected_skills.length - 3} more
+                      +{workflow.selected_skills.length - 3} 更多
                     </span>
                   ) : null}
                 </div>

@@ -34,20 +34,20 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="min-h-screen flex items-center justify-center bg-[color:var(--color-bg-page)]">
             <div className="text-center">
               <h1 className="text-2xl font-bold text-[color:var(--color-danger)] mb-4">
-                Something went wrong
+                出现错误
               </h1>
               <p className="text-[color:var(--color-muted)] mb-6">
-                An unexpected error occurred
+                发生了意外错误
               </p>
               <button
                 onClick={() => window.location.href = '/dashboard'}
                 className="btn-primary"
               >
-                Go to Dashboard
+                返回仪表盘
               </button>
               {import.meta.env.DEV && this.state.error && (
                 <details className="mt-4 text-left text-xs text-[color:var(--color-muted)]">
-                  <summary>Error details</summary>
+                  <summary>错误详情</summary>
                   <pre className="mt-2 p-4 bg-[color:var(--color-surface)] overflow-auto">
                     {this.state.error.stack}
                   </pre>
