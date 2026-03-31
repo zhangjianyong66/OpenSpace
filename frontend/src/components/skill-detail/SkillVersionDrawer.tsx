@@ -118,7 +118,7 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
     <>
       <button
         type="button"
-        aria-label="Close version detail"
+        aria-label="关闭版本详情"
         className={`fixed inset-0 z-30 bg-[rgba(20,20,19,0.22)] transition-opacity duration-300 ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
         onClick={onClose}
       />
@@ -135,16 +135,16 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
         <div className="drawer-scroll flex h-full w-full flex-col overflow-hidden overscroll-contain">
           <header className="p-4 border-b-2 border-[color:var(--color-border)] flex items-start justify-between gap-3 shrink-0">
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-wide text-muted">Skill Version</p>
+              <p className="text-xs uppercase tracking-wide text-muted">技能版本</p>
               <h2 id="skill-version-drawer-title" className="font-bold text-lg truncate">{skill.name}</h2>
               <p className="text-xs text-muted font-mono break-all">{skill.skill_id}</p>
             </div>
             <div className="flex items-center gap-2">
               <Link to={`/skills/${encodeURIComponent(skill.skill_id)}`} className="btn-outline-ink text-sm">
-                Open as main
+                作为主页面打开
               </Link>
               <button type="button" onClick={onClose} ref={closeButtonRef} className="btn-outline-ink text-sm">
-                Close
+                关闭
               </button>
             </div>
           </header>
@@ -153,13 +153,13 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 space-y-3">
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2 min-w-0">
-                  <div className="text-xs uppercase tracking-[0.16em] text-muted">Version Summary</div>
-                  <div className="text-sm text-muted">{skill.description || 'No description available for this version.'}</div>
+                  <div className="text-xs uppercase tracking-[0.16em] text-muted">版本摘要</div>
+                  <div className="text-sm text-muted">{skill.description || '此版本暂无描述。'}</div>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span className="tag px-2 py-1">{skill.category}</span>
                     <span className="tag px-2 py-1">{skill.origin}</span>
-                    <span className="tag px-2 py-1">gen {skill.generation}</span>
-                    <span className="tag px-2 py-1">{skill.is_active ? 'active' : 'inactive'}</span>
+                    <span className="tag px-2 py-1">代数 {skill.generation}</span>
+                    <span className="tag px-2 py-1">{skill.is_active ? '活跃' : '非活跃'}</span>
                     {skill.tags.map((tag) => (
                       <span key={tag} className="tag px-2 py-1">{tag}</span>
                     ))}
@@ -167,67 +167,67 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
                 </div>
                 <div className="text-right shrink-0">
                   <div className="text-4xl font-bold font-serif leading-none">{skill.score.toFixed(1)}</div>
-                  <div className="text-xs uppercase tracking-[0.16em] text-muted mt-2">version score</div>
+                  <div className="text-xs uppercase tracking-[0.16em] text-muted mt-2">版本评分</div>
                 </div>
               </div>
             </section>
 
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 space-y-4">
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-muted">Metrics</div>
-                <h3 className="text-xl font-bold font-serif mt-1">Execution quality</h3>
+                <div className="text-xs uppercase tracking-[0.16em] text-muted">指标</div>
+                <h3 className="text-xl font-bold font-serif mt-1">执行质量</h3>
               </div>
               <div className="space-y-4">
-                <ProgressBar label="Effective rate" value={skill.effective_rate} colorClass="bg-primary" />
-                <ProgressBar label="Completion rate" value={skill.completion_rate} colorClass="bg-accent" />
-                <ProgressBar label="Applied rate" value={skill.applied_rate} colorClass="bg-teal" />
-                <ProgressBar label="Fallback rate" value={skill.fallback_rate} colorClass="bg-danger" />
+                <ProgressBar label="有效率" value={skill.effective_rate} colorClass="bg-primary" />
+                <ProgressBar label="完成率" value={skill.completion_rate} colorClass="bg-accent" />
+                <ProgressBar label="应用率" value={skill.applied_rate} colorClass="bg-teal" />
+                <ProgressBar label="回退率" value={skill.fallback_rate} colorClass="bg-danger" />
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm text-muted">
-                <div><div className="font-bold text-ink">Selections</div><div>{skill.total_selections}</div></div>
-                <div><div className="font-bold text-ink">Applied</div><div>{skill.total_applied}</div></div>
-                <div><div className="font-bold text-ink">Completions</div><div>{skill.total_completions}</div></div>
-                <div><div className="font-bold text-ink">Fallbacks</div><div>{skill.total_fallbacks}</div></div>
+                <div><div className="font-bold text-ink">选择次数</div><div>{skill.total_selections}</div></div>
+                <div><div className="font-bold text-ink">应用次数</div><div>{skill.total_applied}</div></div>
+                <div><div className="font-bold text-ink">完成次数</div><div>{skill.total_completions}</div></div>
+                <div><div className="font-bold text-ink">回退次数</div><div>{skill.total_fallbacks}</div></div>
               </div>
             </section>
 
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 text-sm space-y-2">
-              <h3 className="font-bold">Version Metadata</h3>
-              <p><strong>Origin:</strong> {skill.origin}</p>
-              <p><strong>Generation:</strong> {skill.generation}</p>
-              <p><strong>Visibility:</strong> {skill.visibility}</p>
-              <p><strong>Created:</strong> {formatDate(skill.lineage.created_at)}</p>
-              <p><strong>First seen:</strong> {formatDate(skill.first_seen)}</p>
-              <p><strong>Last updated:</strong> {formatDate(skill.last_updated)}</p>
-              <p><strong>Skill path:</strong> <span className="break-all">{skill.path || 'Unavailable'}</span></p>
-              <p><strong>Skill dir:</strong> <span className="break-all">{skill.skill_dir || 'Unavailable'}</span></p>
-              <p><strong>Parent IDs:</strong> {skill.parent_skill_ids.length ? skill.parent_skill_ids.join(', ') : 'None'}</p>
-              <p><strong>Change summary:</strong> {skill.lineage.change_summary || 'None'}</p>
-              <p><strong>Effective score:</strong> {formatPercent(skill.effective_rate)}</p>
+              <h3 className="font-bold">版本元数据</h3>
+              <p><strong>来源:</strong> {skill.origin}</p>
+              <p><strong>代数:</strong> {skill.generation}</p>
+              <p><strong>可见性:</strong> {skill.visibility}</p>
+              <p><strong>创建时间:</strong> {formatDate(skill.lineage.created_at)}</p>
+              <p><strong>首次发现:</strong> {formatDate(skill.first_seen)}</p>
+              <p><strong>最后更新:</strong> {formatDate(skill.last_updated)}</p>
+              <p><strong>技能路径:</strong> <span className="break-all">{skill.path || '不可用'}</span></p>
+              <p><strong>技能目录:</strong> <span className="break-all">{skill.skill_dir || '不可用'}</span></p>
+              <p><strong>父技能ID:</strong> {skill.parent_skill_ids.length ? skill.parent_skill_ids.join(', ') : '无'}</p>
+              <p><strong>变更摘要:</strong> {skill.lineage.change_summary || '无'}</p>
+              <p><strong>有效评分:</strong> {formatPercent(skill.effective_rate)}</p>
             </section>
 
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 space-y-4">
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-muted">Diff</div>
-                <h3 className="text-xl font-bold font-serif mt-1">Content diff</h3>
+                <div className="text-xs uppercase tracking-[0.16em] text-muted">差异</div>
+                <h3 className="text-xl font-bold font-serif mt-1">内容差异</h3>
               </div>
               {isOversizedDiff ? (
-                <EmptyState title="Diff too large" description="This version has a very large content diff, so the inline viewer is disabled." />
+                <EmptyState title="差异过大" description="此版本的内容差异非常大，因此内联查看器已禁用。" />
               ) : canShowDiff ? (
                 diffFiles.length > 0 ? (
                   <DiffViewer files={diffFiles} />
                 ) : (
-                  <EmptyState title="Diff unavailable" description="This version has a diff payload, but it could not be parsed as a unified diff." />
+                  <EmptyState title="差异不可用" description="此版本有差异数据，但无法解析为统一差异格式。" />
                 )
               ) : (
-                <EmptyState title="No content diff" description="This version does not have a stored content diff." />
+                <EmptyState title="无内容差异" description="此版本没有存储的内容差异。" />
               )}
             </section>
 
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 space-y-4">
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-muted">Source</div>
-                <h3 className="text-xl font-bold font-serif mt-1">SKILL.md preview</h3>
+                <div className="text-xs uppercase tracking-[0.16em] text-muted">源文件</div>
+                <h3 className="text-xl font-bold font-serif mt-1">SKILL.md 预览</h3>
               </div>
               {sourcePreview ? (
                 <div className="space-y-3">
@@ -235,14 +235,14 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
                   <pre className="field-surface p-4 text-xs overflow-auto max-h-[320px] whitespace-pre-wrap">{sourcePreview.content}</pre>
                 </div>
               ) : (
-                <EmptyState title="Source unavailable" description="This version points to a missing or unreadable SKILL.md path." />
+                <EmptyState title="源文件不可用" description="此版本指向一个缺失或无法读取的 SKILL.md 路径。" />
               )}
             </section>
 
             <section className="rounded-[var(--radius)] border-2 border-[color:var(--color-border-dark)] bg-surface p-4 space-y-4">
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-muted">Analyses</div>
-                <h3 className="text-xl font-bold font-serif mt-1">Recent execution analyses</h3>
+                <div className="text-xs uppercase tracking-[0.16em] text-muted">分析</div>
+                <h3 className="text-xl font-bold font-serif mt-1">最近执行分析</h3>
               </div>
               {skill.recent_analyses.length > 0 ? (
                 <div className="space-y-3">
@@ -252,15 +252,15 @@ export default function SkillVersionDrawer({ skill, isOpen, onClose }: SkillVers
                         <div className="font-bold truncate">{analysis.task_id}</div>
                         <div className="text-xs text-muted">{formatDate(analysis.timestamp)}</div>
                       </div>
-                      <div className="text-sm text-muted">{truncate(analysis.execution_note || 'No execution note', 220)}</div>
+                      <div className="text-sm text-muted">{truncate(analysis.execution_note || '无执行备注', 220)}</div>
                       <div className="text-xs text-muted">
-                        completed: {analysis.task_completed ? 'yes' : 'no'} · tool issues: {analysis.tool_issues.length} · suggestions: {analysis.evolution_suggestions.length}
+                        已完成: {analysis.task_completed ? '是' : '否'} · 工具问题: {analysis.tool_issues.length} · 建议: {analysis.evolution_suggestions.length}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <EmptyState title="No analyses yet" description="Execution analyses will appear after recorded task runs are persisted into SQLite." />
+                <EmptyState title="暂无分析" description="执行分析将在任务运行记录持久化到 SQLite 后出现。" />
               )}
             </section>
           </main>

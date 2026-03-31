@@ -48,7 +48,7 @@ function formatPercent(value: number): string {
   return `${(value * 100).toFixed(1)}%`;
 }
 
-function pluralize(value: number, singular: string, plural = `${singular}s`): string {
+function pluralize(value: number, singular: string, plural = `${singular}`): string {
   return `${value} ${value === 1 ? singular : plural}`;
 }
 
@@ -80,7 +80,7 @@ function firstMeaningfulLine(value: string): string | null {
 function humanizeToken(value: string): string {
   const normalized = value.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
   if (!normalized) {
-    return 'Unknown';
+    return '未知';
   }
 
   return normalized.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -464,7 +464,7 @@ export default function WorkflowDetailPage() {
     return (
       <div className="workflow-detail-page p-6">
         <div className="mx-auto max-w-[1480px]">
-          <div className="workflow-panel p-6 text-sm text-muted">Loading workflow detail…</div>
+          <div className="workflow-panel p-6 text-sm text-muted">正在加载工作流详情…</div>
         </div>
       </div>
     );
@@ -474,7 +474,7 @@ export default function WorkflowDetailPage() {
     return (
       <div className="workflow-detail-page p-6">
         <div className="mx-auto max-w-[1480px]">
-          <div className="workflow-panel p-6 text-sm text-danger">{error ?? 'Workflow not found'}</div>
+          <div className="workflow-panel p-6 text-sm text-danger">{error ?? '未找到工作流'}</div>
         </div>
       </div>
     );
@@ -487,16 +487,16 @@ export default function WorkflowDetailPage() {
   const skillSelection = isRecord(metadata.skill_selection) ? metadata.skill_selection : null;
   const selectionMethod = skillSelection && typeof skillSelection.method === 'string' ? skillSelection.method : null;
   const executionDurationLabel = formatDurationSeconds(workflow.execution_time);
-  const selectedSkillLabel = `${pluralize(workflow.selected_skills.length, 'skill')} selected`;
-  const iterationsLabel = pluralize(workflow.iterations, 'iteration');
-  const totalStepLabel = pluralize(workflow.total_steps, 'step');
-  const actionCountLabel = pluralize(workflow.agent_action_count, 'agent action');
+  const selectedSkillLabel = `${pluralize(workflow.selected_skills.length, '个技能')} 已选择`;
+  const iterationsLabel = pluralize(workflow.iterations, '次迭代');
+  const totalStepLabel = pluralize(workflow.total_steps, '步');
+  const actionCountLabel = pluralize(workflow.agent_action_count, '个智能体动作');
   const agentActionCount = timelineSummary.byType.agent_action ?? 0;
   const toolExecutionCount = timelineSummary.byType.tool_execution ?? 0;
   const latestEventLabel = timelineSummary.lastTimestamp ? formatTimeLabel(timelineSummary.lastTimestamp) : '—';
-  const timelineEventLabel = pluralize(timelineSummary.total, 'merged event');
-  const statusLabel = humanizeToken(workflow.status || 'unknown');
-  const selectionMethodLabel = selectionMethod ? humanizeToken(selectionMethod) : 'Not recorded';
+  const timelineEventLabel = pluralize(timelineSummary.total, '个合并事件');
+  const statusLabel = humanizeToken(workflow.status || '未知');
+  const selectionMethodLabel = selectionMethod ? humanizeToken(selectionMethod) : '未记录';
   const successRateLabel = formatPercent(workflow.success_rate);
 
   return (
@@ -510,7 +510,7 @@ export default function WorkflowDetailPage() {
                   to="/workflows"
                   className="workflow-chip text-sm transition-colors hover:border-[color:var(--color-border-dark)] hover:text-ink"
                 >
-                  ← Back to Workflows
+                  ← 返回工作流列表
                 </Link>
                 <WorkflowChip className={getStatusChipClasses(workflow.status)}>{statusLabel}</WorkflowChip>
                 <WorkflowChip>{selectedSkillLabel}</WorkflowChip>
@@ -518,7 +518,7 @@ export default function WorkflowDetailPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="workflow-kicker">Workflow detail</div>
+                <div className="workflow-kicker">工作流详情</div>
                 <h1 className="max-w-5xl text-4xl font-semibold leading-[1.05] tracking-[-0.05em] text-ink lg:text-5xl xl:text-[3.6rem]">
                   {workflow.task_name}
                 </h1>
@@ -530,24 +530,24 @@ export default function WorkflowDetailPage() {
 
             <div className="workflow-soft-card w-full max-w-sm shrink-0 p-5 space-y-5">
               <p className="workflow-copy text-base leading-7 text-muted">
-                {`${statusLabel} run with ${iterationsLabel} and ${actionCountLabel}.`}
+                {`${statusLabel} 运行，${iterationsLabel}，${actionCountLabel}。`}
               </p>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1">
-                  <div className="workflow-kicker">Started</div>
+                  <div className="workflow-kicker">开始时间</div>
                   <div className="text-base font-medium text-ink">{formatDate(workflow.start_time)}</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="workflow-kicker">Duration</div>
+                  <div className="workflow-kicker">持续时间</div>
                   <div className="text-base font-medium text-ink">{executionDurationLabel}</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="workflow-kicker">Steps</div>
+                  <div className="workflow-kicker">步骤数</div>
                   <div className="text-base font-medium text-ink">{totalStepLabel}</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="workflow-kicker">Latest event</div>
+                  <div className="workflow-kicker">最后事件</div>
                   <div className="text-base font-medium text-ink">{latestEventLabel}</div>
                 </div>
               </div>
@@ -556,24 +556,24 @@ export default function WorkflowDetailPage() {
 
           <section className="workflow-metrics-row">
             <SummaryMetric
-              label="Success rate"
+              label="成功率"
               value={successRateLabel}
-              hint={`${pluralize(workflow.success_count, 'successful iteration')} out of ${iterationsLabel}`}
+              hint={`${pluralize(workflow.success_count, '次成功迭代')}，共 ${iterationsLabel}`}
             />
             <SummaryMetric
-              label="Iterations"
+              label="迭代次数"
               value={workflow.iterations}
-              hint={`${executionDurationLabel} total runtime`}
+              hint={`${executionDurationLabel} 总运行时间`}
             />
             <SummaryMetric
-              label="Active backends"
+              label="活跃后端"
               value={activityEntries.length}
-              hint={topBackendEntry ? `Most active ${humanizeToken(topBackendEntry[0])} · ${topBackendEntry[1]} events` : 'No recorded tool activity'}
+              hint={topBackendEntry ? `最活跃: ${humanizeToken(topBackendEntry[0])} · ${topBackendEntry[1]} 事件` : '无记录的工具活动'}
             />
             <SummaryMetric
-              label="Timeline events"
+              label="时间线事件"
               value={timelineSummary.total}
-              hint={`${agentActionCount} agent actions · ${toolExecutionCount} tool events`}
+              hint={`${agentActionCount} 智能体动作 · ${toolExecutionCount} 工具事件`}
             />
           </section>
         </section>
@@ -582,11 +582,11 @@ export default function WorkflowDetailPage() {
           <div className="workflow-panel p-5 space-y-4">
             {timeline.length === 0 ? (
               <QuietEmptyState
-                title="No timeline data"
-                description="This session does not yet contain trajectory or agent action records."
+                title="无时间线数据"
+                description="此会话暂未包含轨迹或智能体动作记录。"
               />
             ) : (
-              <div role="list" aria-label="Workflow timeline events">
+              <div role="list" aria-label="工作流时间线事件">
                 {timeline.map((event, index) => {
                   const isOpen = openIndex === index;
                   const presentation = describeTimelineEvent(event);
@@ -677,7 +677,7 @@ export default function WorkflowDetailPage() {
                               ) : null}
 
                               <div className="workflow-soft-card p-3.5">
-                                <div className="text-[11px] uppercase tracking-[0.16em] text-muted">Raw event JSON</div>
+                                <div className="text-[11px] uppercase tracking-[0.16em] text-muted">原始事件 JSON</div>
                                 <pre className="workflow-json mt-3 whitespace-pre-wrap break-all text-xs leading-6 text-muted">
                                   {stringify(event.details)}
                                 </pre>
@@ -697,8 +697,8 @@ export default function WorkflowDetailPage() {
             <section className="workflow-panel p-5 space-y-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="workflow-kicker">Selection</div>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink">Selected skills</h2>
+                  <div className="workflow-kicker">选择</div>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink">已选技能</h2>
                 </div>
                 {workflow.selected_skills.length > 0 ? <WorkflowChip>{workflow.selected_skills.length}</WorkflowChip> : null}
               </div>
@@ -718,42 +718,42 @@ export default function WorkflowDetailPage() {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <div className="text-lg font-semibold tracking-[-0.02em] text-ink">No selected skills</div>
-                  <p className="workflow-copy text-sm leading-6 text-muted">No skills were selected or recorded for this run.</p>
+                  <div className="text-lg font-semibold tracking-[-0.02em] text-ink">未选择技能</div>
+                  <p className="workflow-copy text-sm leading-6 text-muted">此次运行未选择或记录任何技能。</p>
                 </div>
               )}
             </section>
 
             <section className="workflow-panel p-5 space-y-5">
               <div>
-                <div className="workflow-kicker">Session</div>
-                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink">Overview</h2>
+                <div className="workflow-kicker">会话</div>
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-ink">概览</h2>
               </div>
 
               <div className="space-y-5">
-                <SidebarRow label="Task ID">
+                <SidebarRow label="任务 ID">
                   <div className="break-all">{workflow.task_id}</div>
                 </SidebarRow>
 
-                <SidebarRow label="Runtime">
+                <SidebarRow label="运行时间">
                   <div>{executionDurationLabel}</div>
                   <div className="text-xs leading-6 text-muted">
                     {iterationsLabel} · {totalStepLabel} · {actionCountLabel}
                   </div>
                 </SidebarRow>
 
-                <SidebarRow label="Window">
+                <SidebarRow label="时间窗口">
                   <div>{formatDate(workflow.start_time)}</div>
-                  <div className="text-xs leading-6 text-muted">Ended {formatDate(workflow.end_time)}</div>
+                  <div className="text-xs leading-6 text-muted">结束于 {formatDate(workflow.end_time)}</div>
                 </SidebarRow>
 
-                <SidebarRow label="Selection method">
+                <SidebarRow label="选择方法">
                   <div>{selectionMethodLabel}</div>
                   <div className="text-xs leading-6 text-muted">{selectedSkillLabel}</div>
                 </SidebarRow>
 
                 {enabledBackends.length > 0 ? (
-                  <SidebarRow label="Enabled backends">
+                  <SidebarRow label="启用的后端">
                     <div className="flex flex-wrap gap-2 text-xs">
                       {enabledBackends.map((backend) => (
                         <WorkflowChip key={backend}>{humanizeToken(backend)}</WorkflowChip>
@@ -763,7 +763,7 @@ export default function WorkflowDetailPage() {
                 ) : null}
 
                 {activityEntries.length > 0 ? (
-                  <SidebarRow label="Backend activity">
+                  <SidebarRow label="后端活动">
                     <div className="flex flex-wrap gap-2 text-xs">
                       {activityEntries.map(([backend, count]) => (
                         <WorkflowChip key={backend}>{`${humanizeToken(backend)} ${count}`}</WorkflowChip>
