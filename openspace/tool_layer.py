@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import traceback
 import uuid
 from dataclasses import dataclass, field
@@ -48,6 +49,11 @@ class OpenSpaceConfig:
     backend_scope: Optional[List[str]] = None  # None = All backends ["shell", "gui", "mcp", "web", "system"]
     use_clawwork_productivity: bool = False  # If True, add ClawWork productivity tools (search_web, create_file, etc.) for fair comparison with ClawWork; requires livebench installed.
     
+    # Data Directory Configuration
+    # If set, all generated files (logs, recordings, workspace) will be stored here
+    # instead of the project directory. Can also be set via OPENSPACE_DATA_DIR env var.
+    data_dir: Optional[str] = None
+    
     # Workspace Configuration
     workspace_dir: Optional[str] = None
     
@@ -68,11 +74,25 @@ class OpenSpaceConfig:
     log_file_path: Optional[str] = None
     
     def __post_init__(self):
-        """Validate configuration"""
+        """Validate configuration and resolve data_dir paths"""
         if not self.llm_model:
             raise ValueError("llm_model is required")
         
-        logger.debug(f"OpenSpaceConfig initialized with model: {self.llm_model}")
+        # Resolve data_dir from config or environment variable
+        data_dir = self.data_dir or os.environ.get("OPENSPACE_DATA_DIR")
+        if data_dir:
+            data_dir = os.path.expanduser(data_dir)
+            self.data_dir = data_dir
+            
+            # Auto-resolve workspace_dir if not explicitly set
+            if not self.workspace_dir:
+                self.workspace_dir = os.path.join(data_dir, "workspace")
+            
+            # Auto-resolve recording_log_dir if using default
+            if self.recording_log_dir == "./logs/recordings":
+                self.recording_log_dir = os.path.join(data_dir, "recordings")
+        
+        logger.debug(f"OpenSpaceConfig initialized with model: {self.llm_model}, data_dir: {self.data_dir}")
 
 
 class OpenSpace:

@@ -44,7 +44,23 @@ OPENSPACE_DEBUG = _load_log_level_from_config()
 
 # Default log directory and file pattern
 # Use absolute path to openspace/logs directory
-DEFAULT_LOG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "logs")
+_DEFAULT_PROJECT_LOG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "logs")
+
+
+def _get_default_log_dir() -> str:
+    """Get the default log directory.
+    
+    Priority:
+    1. OPENSPACE_DATA_DIR/logs - if set, use isolated data directory
+    2. Project directory/logs - fallback to project root
+    """
+    data_dir = os.environ.get("OPENSPACE_DATA_DIR")
+    if data_dir:
+        return os.path.join(os.path.expanduser(data_dir), "logs")
+    return _DEFAULT_PROJECT_LOG_DIR
+
+
+DEFAULT_LOG_DIR = _get_default_log_dir()
 DEFAULT_LOG_FILE_PATTERN = "openspace_{timestamp}.log"
 
 

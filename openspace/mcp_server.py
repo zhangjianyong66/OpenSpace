@@ -155,8 +155,16 @@ async def _get_openspace():
         model, llm_kwargs = build_llm_kwargs(env_model)
 
         _pkg_root = str(Path(__file__).resolve().parent.parent)
-        recording_base = workspace or _pkg_root
-        recording_log_dir = str(Path(recording_base) / "logs" / "recordings")
+        
+        # Determine data directory priority: env var > config > project root
+        data_dir = os.environ.get("OPENSPACE_DATA_DIR")
+        if data_dir:
+            data_dir = os.path.expanduser(data_dir)
+            recording_base = workspace or data_dir
+            recording_log_dir = str(Path(recording_base) / "recordings")
+        else:
+            recording_base = workspace or _pkg_root
+            recording_log_dir = str(Path(recording_base) / "logs" / "recordings")
 
         config = OpenSpaceConfig(
             llm_model=model,

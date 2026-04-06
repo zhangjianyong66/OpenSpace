@@ -1,0 +1,15 @@
+{
+  "_comment": "OpenSpace 独立目录配置示例 - 生成文件与代码仓库隔离",
+  
+  "llm_model": "openai/auto",
+  
+  "data_dir": "~/.openspace-data",
+  "workspace_dir": "~/.openspace-data/workspace",
+  "recording_log_dir": "~/.openspace-data/recordings",
+  
+  "llm_timeout": 120.0,
+  "llm_max_retries": 3,
+  "grounding_max_iterations": 30,
+  "log_level": "INFO",
+  "enable_recording": true
+}
