@@ -73,3 +73,36 @@ openspace/skills/*
 node_modules/
 # Frontend local dependency link
 frontend/node_modules
+
+# ============================================
+# User generated reports and data (auto-generated)
+# ============================================
+
+# Memory monitor reports (auto-generated, large files)
+memory_monitor_report*.json
+memory_monitor_report*.md
+memory_monitor_report*.txt
+!memory_monitor_report_example.*
+
+# Daily hot news reports (auto-generated)
+daily_hot_news_report*.md
+hot_news_report*.md
+hot_news_data*.json
+
+# Stock analysis data (auto-generated)
+a_stock_analysis*.json
+a_stock_analysis*.md
+
+# User research outputs
+ai_subscription_comparison_report.md
+ai_coding_assistants*.md
+blog_post_ai_coding_assistants.md
+github_cli_coding_agent_webui_projects.md
+github_projects_comparison_report.md
+xiaohongshu_thin_cotton_onesie_analysis.md
+learnings_*.md
+
+# User local scripts (optional, keep if you want)
+# qq_email_reader.py
+# etf_data.py
+# etf_summary.py
