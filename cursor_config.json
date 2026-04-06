@@ -1,0 +1,7 @@
+{
+  "llm_model": "openai/auto",
+  "llm_timeout": 120.0,
+  "llm_max_retries": 3,
+  "grounding_max_iterations": 30,
+  "log_level": "INFO"
+}
